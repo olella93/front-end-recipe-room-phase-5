@@ -1,3 +1,557 @@
-.App{
-    
+:root {
+  --orange-bold: #f47e3b;
+  --peach-soft: #fdbb89;
+  --orange-mid: #fb9751;
+  --white: #ffffff;
+  --black: #000000;
+
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom, var(--peach-soft), var(--orange-mid));
+  color: var(--black);
+  line-height: 1.6;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background-color: var(--orange-bold);
+  color: var(--white);
+  flex-wrap: wrap;
+}
+
+.navbar a {
+  color: var(--black);
+  margin-left: 1.2rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar a.login-btn {
+  background-color: var(--orange-mid);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: bold;
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom, var(--peach-soft), var(--orange-mid));
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: var(--black);
+}
+
+.hero .get-started-btn {
+  background-color: var(--orange-bold);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  margin: 2rem auto;
+  max-width: 500px;
+  padding: 0.75rem 1rem;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+}
+
+/* SECTIONS */
+.section {
+  padding: 2rem;
+  background-color: var(--white);
+}
+
+.section h2 {
+  color: var(--orange-bold);
+  margin-bottom: 1.5rem;
+}
+
+/* RECIPE CARD */
+.recipe-card {
+  background-color: var(--orange-mid);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  color: var(--black);
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card img {
+  width: 100%;
+  border-radius: var(--radius);
+  margin-bottom: 0.8rem;
+}
+
+.recipe-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.recipe-card p {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* LOGIN PAGE */
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.login-hero {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-hero-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.login-container {
+  flex: 1;
+  max-width: 400px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-heading {
+  color: var(--orange-bold);
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+};
+
+.input-field {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+};
+
+.input-field:focus {
+  border-color: var(--orange-mid);
+};
+
+.login-btn {
+  padding: 0.75rem 1rem;
+  background-color: var(--orange-bold);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+};
+
+.login-btn:hover {
+  background-color: var(--orange-mid);
+};
+
+.error-text {:root {
+  --orange-bold: #f47e3b;
+  --peach-soft: #fdbb89;
+  --orange-mid: #fb9751;
+  --white: #ffffff;
+  --black: #000000;
+
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom, var(--peach-soft), var(--orange-mid));
+  color: var(--black);
+  line-height: 1.6;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background-color: var(--orange-bold);
+  color: var(--white);
+  flex-wrap: wrap;
+}
+
+.navbar a {
+  color: var(--black);
+  margin-left: 1.2rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar a.login-btn {
+  background-color: var(--orange-mid);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: bold;
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom, var(--peach-soft), var(--orange-mid));
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: var(--black);
+}
+
+.hero .get-started-btn {
+  background-color: var(--orange-bold);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  margin: 2rem auto;
+  max-width: 500px;
+  padding: 0.75rem 1rem;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+}
+
+/* SECTIONS */
+.section {
+  padding: 2rem;
+  background-color: var(--white);
+}
+
+.section h2 {
+  color: var(--orange-bold);
+  margin-bottom: 1.5rem;
+}
+
+/* RECIPE CARD */
+.recipe-card {
+  background-color: var(--orange-mid);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  color: var(--black);
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card img {
+  width: 100%;
+  border-radius: var(--radius);
+  margin-bottom: 0.8rem;
+}
+
+.recipe-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.recipe-card p {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* LOGIN PAGE */
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.login-hero {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-hero-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.login-container {
+  flex: 1;
+  max-width: 400px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-heading {
+  color: var(--orange-bold);
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.input-field {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: var(--orange-mid);
+}
+
+.login-btn {
+  padding: 0.75rem 1rem;
+  background-color: var(--orange-bold);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: var(--orange-mid);
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login-bottom-link {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.login-bottom-link a {
+  color: var(--orange-bold);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* SIGNUP PAGE */
+.signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--peach-soft);
+  padding: 1rem;
+}
+
+.signup-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  width
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+};
+
+{*mobile responsive!!!*}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+    padding: 1rem;
+  };
+
+  .login-hero-img {
+    max-height: 200px;
+    object-fit: cover;
+    width: 100%;
+  };
+
+  .login-container {
+    width: 100%;
+    max-width: 100%;
+  };
+
+  .hero h1 {
+    font-size: 2rem;
+  };
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  };
+
+  .navbar a {
+    margin: 0.5rem 0;
+  };
+
+  .signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #fdbb89; /* soft peach */
+  padding: 1rem;
+};
+
+.signup-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+};
+
+.signup-heading {
+  text-align: center;
+  color: #f47e3b;
+  margin-bottom: 1.5rem;
+};
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+};
+
+.signup-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f47e3b;
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+};
+
+.signup-btn:hover {
+  background-color: #fb9751;
+};
+
+.error-text {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+};
+
+.success-text {
+  color: green;
+  text-align: center;
+  margin-bottom: 1rem;
+};
+
+};
