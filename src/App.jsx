@@ -1,15 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import { Provider } from 'react-redux';
+import store from './app/store';
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <div className="app-container">
-        <AppRoutes />
-      </div>
-    </Router>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Navbar />
+        <main className="min-h-screen">
+          <AppRoutes />
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </Provider>
   );
-};
+}
 
 export default App;
