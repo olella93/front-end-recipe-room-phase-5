@@ -1,44 +1,29 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaSearch, FaTimes } from 'react-icons/fa';
 
-function SearchBar({ initialValue = '' }) {
-  const [query, setQuery] = useState(initialValue);
-  const navigate = useNavigate();
+function SearchBar() {
+  const [searchText, setSearchText] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      navigate(`/recipes?search=${encodeURIComponent(query)}`);
-    }
-  };
-
-  const clearSearch = () => {
-    setQuery('');
-    navigate('/recipes');
+    console.log("Searching for:", searchText);
+    
   };
 
   return (
-    <form onSubmit={handleSearch} className="relative w-full max-w-xl">
+    <form onSubmit={handleSearch} className="mb-4">
       <input
         type="text"
         placeholder="Search recipes..."
-        className="w-full pl-10 pr-8 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        className="px-4 py-2 border rounded w-full"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
       />
-      <button type="submit" className="absolute left-3 top-2.5 text-gray-400">
-        <FaSearch />
+      <button 
+        type="submit" 
+        className="mt-2 bg-orange-500 text-white px-4 py-2 rounded"
+      >
+        Search
       </button>
-      {query && (
-        <button
-          type="button"
-          onClick={clearSearch}
-          className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
-        >
-          <FaTimes />
-        </button>
-      )}
     </form>
   );
 }
