@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUserAPI } from "../features/auth/authAPI";
 import heroCake from "../assets/images/orange-macarons-macaroons-cakes-with-cup-apricot-juice-white-wooden-background-orange-linen-textile-side-view-close-up-selective-focus_71985-7838.avif";
 
@@ -77,7 +77,7 @@ const Login = () => {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="login-bottom-link">Don't have an account?<link to="/signup">Get Started</link>
+        <p className="login-bottom-link">Don't have an account? <Link to="/signup">Get Started</Link>
         </p>
         
       </form>
