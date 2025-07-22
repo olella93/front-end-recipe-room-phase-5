@@ -13,6 +13,7 @@ import Profile from '../pages/Profile';
 import RecipeDetail from '../pages/RecipeDetail';
 import Bookmarks from '../pages/Bookmarks';
 import CreateRecipe from '../pages/CreateRecipe';
+import Recipes from '../pages/Recipes';
 import GroupRecipe from '../pages/GroupRecipe';
 
 const AppRoutes = () => {
