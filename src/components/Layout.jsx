@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import SearchBar from '../components/SearchBar';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import SearchBar from './SearchBar';
+import AppRoutes from '../routes/AppRoutes';
 
 const Layout = () => {
   return (
     <>
       <Navbar />
-      <SearchBar />
-      <main className="min-h-screen">
+      <main>
         <Outlet />
       </main>
       <Footer />
