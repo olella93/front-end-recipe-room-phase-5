@@ -1,5 +1,5 @@
-function GroupRecipes() {
-  // Mock data - in a real app, this would come from an API
+function GroupRecipe() {
+  
   const recipes = [
     { id: 1, name: "Pasta", cuisine: "Italian" },
     { id: 2, name: "Tacos", cuisine: "Mexican" },
@@ -22,4 +22,4 @@ function GroupRecipes() {
   );
 }
 
-export default GroupRecipes;
+export default GroupRecipe;
