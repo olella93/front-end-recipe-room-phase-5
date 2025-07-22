@@ -1,20 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import authReducer from '../features/auth/authSlice';
+import bookmarkReducer from '../features/bookmarks/bookmarkSlice';
 
 const store = configureStore({
   reducer: {
-    recipes: recipesReducer
+    auth: authReducer,
+    bookmarks: bookmarkReducer,
   }
 });
-
-function recipesReducer(state = { recipes: [] }, action) {
-  switch (action.type) {
-    case 'ADD_RECIPE':
-      return { recipes: [...state.recipes, action.payload] };
-    default:
-      return state;
-  }
-}
-
-
 
 export default store;
