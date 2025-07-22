@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import Layout from '../components/Layout';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
@@ -28,7 +29,33 @@ const AppRoutes = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Home />,
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: 'profile',
+          element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'recipes/:id',
+          element: isAuthenticated ? <RecipeDetail /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'bookmarks',
+          element: isAuthenticated ? <Bookmarks /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'create',
+          element: isAuthenticated ? <CreateRecipe /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'group',
+          element: isAuthenticated ? <GroupRecipe /> : <Navigate to="/login" replace />,
+        },
+      ],
     },
     {
       path: '/signup',
@@ -37,26 +64,6 @@ const AppRoutes = () => {
     {
       path: '/login',
       element: isAuthenticated ? <Navigate to="/" replace /> : <Login />,
-    },
-    {
-      path: '/profile',
-      element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
-    },
-    {
-      path: '/recipes/:id',
-      element: isAuthenticated ? <RecipeDetail /> : <Navigate to="/login" replace />,
-    },
-    {
-      path: '/bookmarks',
-      element: isAuthenticated ? <Bookmarks /> : <Navigate to="/login" replace />,
-    },
-    {
-      path: '/create',
-      element: isAuthenticated ? <CreateRecipe /> : <Navigate to="/login" replace />,
-    },
-    {
-      path: '/group',
-      element: isAuthenticated ? <GroupRecipe /> : <Navigate to="/login" replace />,
     },
     {
       path: '*',

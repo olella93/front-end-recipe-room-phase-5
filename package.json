@@ -26,7 +26,6 @@
   "bugs": {
     "url": "https://github.com/olella93/front-end-recipe-room-phase-5/issues"
   },
-  "homepage": "https://github.com/olella93/front-end-recipe-room-phase-5#readme",
   "devDependencies": {
     "react-scripts": "^5.0.1"
   },
