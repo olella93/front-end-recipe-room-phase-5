@@ -1,5 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+const store = configureStore({
+  reducer: {
+    recipes: recipesReducer
+  }
+});
 
 function recipesReducer(state = { recipes: [] }, action) {
   switch (action.type) {
@@ -10,10 +15,6 @@ function recipesReducer(state = { recipes: [] }, action) {
   }
 }
 
-const store = configureStore({
-  reducer: {
-    recipes: recipesReducer
-  }
-});
+
 
 export default store;
