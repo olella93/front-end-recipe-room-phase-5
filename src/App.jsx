@@ -4,12 +4,14 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { Provider } from 'react-redux';
 import store from './app/store';
+import SearchBar from './components/SearchBar';
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Navbar />
+        <SearchBar />
         <main className="min-h-screen">
           <AppRoutes />
         </main>
