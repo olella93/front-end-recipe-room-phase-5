@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import API from "../api";
+import API from "../services/api";
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -17,8 +17,22 @@ const RecipeDetail = () => {
   return (
     <div className="recipe-detail-container">
       <h1 className="recipe-title">{recipe.title}</h1>
-      <p className="serves-count">Serves: {recipe.serves}</p>
 
+//Recipe image
+      <img
+        src={recipe.image || "https://via.placeholder.com/800x400"}
+        alt={recipe.title}
+        className="recipe-image"
+      />
+
+//Serves,time and Difficulty
+      <div className="recipe-meta">
+        <p>Serves: {recipe.serves || "N/A"}</p>
+        <p>Time: {recipe.time || "N/A"}</p>
+        <p> Difficulty: {recipe.difficulty || "N/A"}</p>
+      </div>
+
+//Ingredients
       <h3 className="section-heading">Ingredients</h3>
       <ul className="ingredients-list">
         {recipe.ingredients?.map((ing, index) => (
@@ -26,6 +40,7 @@ const RecipeDetail = () => {
         ))}
       </ul>
 
+//Instructions
       <h3 className="section-heading">Instructions</h3>
       <ol className="instructions-list">
         {recipe.steps?.map((step, index) => (
@@ -33,25 +48,30 @@ const RecipeDetail = () => {
         ))}
       </ol>
 
+//Ratings
       <div className="rating-section">
         <h3 className="section-heading">Rating</h3>
-        <p className="rating-value"> {recipe.rating || "No ratings yet"}</p>
+        <p className="rating-value">{recipe.rating || "No ratings yet"}</p>
       </div>
 
+//Comments
       <div className="comments-section">
         <h3 className="section-heading">Comments</h3>
-        {recipe.comments?.length ? (
+        {recipe.comments?.length > 0 ? (
           recipe.comments.map((comment, index) => (
-            <div key={index} className="comment-box">
-              <p className="comment-text">{comment.text}</p>
-              <p className="comment-user">By {comment.user}</p>
+            <div key={index} className="comment">
+              <p>
+                <strong>{comment.username || "User"}:</strong>{" "}
+                {comment.text || comment.comment}
+              </p>
             </div>
           ))
         ) : (
-          <p className="no-comments">No comments yet</p>
+          <p>No comments yet.</p>
         )}
       </div>
 
+//Share
       <div className="share-section">
         <button
           onClick={() => navigator.clipboard.writeText(window.location.href)}
@@ -60,13 +80,6 @@ const RecipeDetail = () => {
           Copy Link
         </button>
       </div>
-import React from 'react';
-
-const RecipeDetail = () => {
-  return (
-    <div className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-8">Recipe Details</h1>
-      <p className="text-gray-600">Recipe detail page coming soon...</p>
     </div>
   );
 };

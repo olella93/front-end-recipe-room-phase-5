@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +45,7 @@ const Signup = () => {
   return (
     <div className="signup-wrapper">
       <form className="signup-form" onSubmit={handleSubmit}>
-        <h2 className="signup-heading">Create an Account</h2>
+        <h2 className="signup-heading">Get Started</h2>
 
         {user && <p className="success-text">Signed up successfully!</p>}
         {error && <p className="error-text">Something went wrong: {error}</p>}
@@ -83,7 +83,7 @@ const Signup = () => {
         <button type="submit" disabled={loading} className="signup-btn">
           {loading ? 'Signing up...' : 'Sign Up'}
         </button>
-        <p className='switch-auth-link'>Already have an account? <link to = "/login" />Log in</p>
+        <p className='switch-auth-link'>Already have an account?  <button><link to = "/login" />Log in </button></p>
 
       </form>
     </div>
