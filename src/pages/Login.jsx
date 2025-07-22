@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import { login } from "../features/auth/authAPI";
+import { loginUserAPI } from "../features/auth/authAPI";
 import heroCake from "../assets/images/orange-macarons-macaroons-cakes-with-cup-apricot-juice-white-wooden-background-orange-linen-textile-side-view-close-up-selective-focus_71985-7838.avif";
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await login(formData);
+      const res = await loginUserAPI(formData);
       const token = res.access_token;
 
       localStorage.setItem("access_token", token);
