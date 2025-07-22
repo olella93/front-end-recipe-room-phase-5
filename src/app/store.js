@@ -1,15 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/authSlice';
 
 const store = configureStore({
   reducer: {
-    auth: authReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-  devTools: process.env.NODE_ENV !== 'production',
+    recipes: recipesReducer
+  }
 });
+
+function recipesReducer(state = { recipes: [] }, action) {
+  switch (action.type) {
+    case 'ADD_RECIPE':
+      return { recipes: [...state.recipes, action.payload] };
+    default:
+      return state;
+  }
+}
+
+
 
 export default store;
