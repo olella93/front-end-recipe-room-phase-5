@@ -1,12 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  console.log("Signup component loaded");
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, error, user } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
@@ -16,6 +15,12 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const validate = () => {
     const newErrors = {};
@@ -38,42 +43,48 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Get Started</h2>
+    <div className="signup-wrapper">
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <h2 className="signup-heading">Create an Account</h2>
 
-      {user && <p className="success">Signed up successfully 🎉</p>}
-      {error && <p className="error">Something went wrong: {error}</p>}
+        {user && <p className="success-text">Signed up successfully!</p>}
+        {error && <p className="error-text">Something went wrong: {error}</p>}
 
-      <form onSubmit={handleSubmit}>
         <input
+          type="text"
           name="username"
           placeholder="Username"
           value={formData.username}
           onChange={handleChange}
+          className="input-field"
         />
-        {errors.username && <p className="error">{errors.username}</p>}
+        {errors.username && <p className="error-text">{errors.username}</p>}
 
         <input
-          name="email"
           type="email"
+          name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
+          className="input-field"
         />
-        {errors.email && <p className="error">{errors.email}</p>}
+        {errors.email && <p className="error-text">{errors.email}</p>}
 
         <input
-          name="password"
           type="password"
+          name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          className="input-field"
         />
-        {errors.password && <p className="error">{errors.password}</p>}
+        {errors.password && <p className="error-text">{errors.password}</p>}
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing Up...' : 'Sign Up'}
+        <button type="submit" disabled={loading} className="signup-btn">
+          {loading ? 'Signing up...' : 'Sign Up'}
         </button>
+        <p className='switch-auth-link'>Already have an account? <link to = "/login" />Log in</p>
+
       </form>
     </div>
   );
