@@ -37,12 +37,16 @@ const AppRoutes = () => {
           element: <Home />,
         },
         {
-          path: 'profile',
-          element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
+          path: 'recipes',
+          element: <Recipes />,
         },
         {
           path: 'recipes/:id',
           element: isAuthenticated ? <RecipeDetail /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'profile',
+          element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
         },
         {
           path: 'bookmarks',

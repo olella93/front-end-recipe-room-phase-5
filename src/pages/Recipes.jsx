@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
-import RecipeCard from "../components/RecipeCard";
-import API from "../services/api.js"; 
+import React from 'react';
+import RecipeCard from '../components/RecipeCard';
+
+const dummyRecipes = [
+  {
+    id: 1,
+    title: 'Spicy Ugali Delight',
+    description: 'A Kenyan twist with some heat!',
+    image: '/assets/images/ugali.jpg'
+  },
+  {
+    id: 2,
+    title: 'Matoke Mash',
+    description: 'Banana bliss in every bite.',
+    image: '/assets/images/matoke.jpg'
+  },
+];
 
 const Recipes = () => {
-  const [recipes, setRecipes] = useState([]);
-
-  useEffect(() => {
-    API.get("/recipes")
-      .then((res) => setRecipes(res.data))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
     <div className="recipes-page">
-      <h1>All Recipes</h1>
-      <div className="recipe-list">
-        {recipes.map((recipe) => (
+      <h2 className="recipes-title">All Recipes</h2>
+      <div className="recipe-grid">
+        {dummyRecipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
