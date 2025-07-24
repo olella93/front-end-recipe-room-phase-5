@@ -1,24 +1,77 @@
-import { BrowserRouter } from 'react-router-dom';
-import AppRoutes from './routes/AppRoutes';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import { Provider } from 'react-redux';
-import store from './app/store';
-import SearchBar from './components/SearchBar';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Navbar />
-        <SearchBar />
-        <main className="min-h-screen">
-          <AppRoutes />
-        </main>
-        <Footer />
-      </BrowserRouter>
-    </Provider>
-  );
-}
+import Layout from './components/Layout';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import RecipeDetail from './pages/RecipeDetail';
+import Bookmarks from './pages/Bookmarks';
+import CreateRecipe from './pages/CreateRecipe';
+import GroupRecipe from './pages/GroupRecipe';
+
+const App = () => {
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-orange-600 text-xl">
+        Loading...
+      </div>
+    );
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: 'profile',
+          element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'recipes/:id',
+          element: isAuthenticated ? <RecipeDetail /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'bookmarks',
+          element: isAuthenticated ? <Bookmarks /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'create',
+          element: isAuthenticated ? <CreateRecipe /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'group',
+          element: isAuthenticated ? <GroupRecipe /> : <Navigate to="/login" replace />,
+        },
+      ],
+    },
+    {
+      path: '/signup',
+      element: isAuthenticated ? <Navigate to="/" replace /> : <Signup />,
+    },
+    {
+      path: '/login',
+      element: isAuthenticated ? <Navigate to="/" replace /> : <Login />,
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" replace />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
 
 export default App;
