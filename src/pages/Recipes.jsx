@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import RecipeCard from "../components/RecipeCard";
-import API from "../services/api.js"; // update if you named it differently
+import API from "../services/api.js"; 
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);

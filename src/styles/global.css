@@ -22,7 +22,7 @@ body {
   line-height: 1.6;
 }
 
-/* NAVBAR */
+// navbar
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -50,7 +50,7 @@ body {
   font-weight: bold;
 }
 
-/* LOGO */
+// Logo
 .logo {
   display: flex;
   align-items: center;
@@ -76,7 +76,7 @@ body {
   color: var(--white);
 }
 
-/* HERO SECTION */
+// hero section
 .hero {
   text-align: center;
   padding: 4rem 2rem;
@@ -105,7 +105,7 @@ body {
   cursor: pointer;
 }
 
-/* SEARCH BAR */
+// search bar
 .search-bar {
   margin: 2rem auto;
   max-width: 500px;
@@ -125,7 +125,7 @@ body {
   background: transparent;
 }
 
-/* SECTIONS */
+// sections
 .section {
   padding: 2rem;
   background-color: var(--white);
@@ -136,7 +136,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* RECIPE CARD */
+// recipe card
 .recipe-card {
   background-color: var(--orange-mid);
   border-radius: var(--radius);
@@ -280,7 +280,7 @@ body {
   margin: 0.5rem 0;
 }
 
-/* mobile responsive */
+// mobile responsive
 
 @media (max-width: 768px) {
   .login-wrapper {
@@ -317,7 +317,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #fdbb89; /* soft peach */
+  background: #fdbb89; 
   padding: 1rem;
 }
 
