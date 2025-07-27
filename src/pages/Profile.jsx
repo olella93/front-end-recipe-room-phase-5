@@ -155,6 +155,8 @@ const Profile = () => {
   >
     Delete Profile
   </button>
+
+  <CommentSection recipeId={recipe._id}/>
 </div>
 
 
