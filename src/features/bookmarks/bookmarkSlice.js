@@ -1,21 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  items: JSON.parse(localStorage.getItem("bookmarks")) || [], // Load from localStorage
+};
+
 const bookmarkSlice = createSlice({
   name: "bookmarks",
-  initialState: {
-    bookmarks: [], 
-  },
+  initialState,
   reducers: {
     addBookmark: (state, action) => {
-      state.bookmarks.push(action.payload);
+      state.items.push(action.payload);
+      localStorage.setItem("bookmarks", JSON.stringify(state.items));
     },
     removeBookmark: (state, action) => {
-      state.bookmarks = state.bookmarks.filter(
+      state.items = state.items.filter(
         (recipe) => recipe._id !== action.payload
       );
+      localStorage.setItem("bookmarks", JSON.stringify(state.items));
     },
     setBookmarks: (state, action) => {
-      state.bookmarks = action.payload;
+      state.items = action.payload;
+      localStorage.setItem("bookmarks", JSON.stringify(state.items));
     },
   },
 });
