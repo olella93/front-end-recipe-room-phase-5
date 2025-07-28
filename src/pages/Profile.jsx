@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await API.get('/users/profile'); // Adjustable endpoint
+        const res = await API.get('/users/profile');
         setUserData(res.data);
         localStorage.setItem('user_profile', JSON.stringify(res.data));
       } catch (err) {
@@ -60,7 +60,7 @@ const Profile = () => {
       const res = await API.put('/users/profile', payload);
       alert('Profile updated successfully!');
       localStorage.setItem('user_profile', JSON.stringify(res.data));
-      setUserData((prev) => ({ ...prev, password: '' })); // clear password input
+      setUserData((prev) => ({ ...prev, password: '' })); 
     } catch (err) {
       console.error('Error updating profile:', err);
       alert('Failed to update profile.');
@@ -128,8 +128,8 @@ const Profile = () => {
       <div className="mt-10 space-x-4">
          <button
           onClick={() => {
-            localStorage.clear(); // or remove specific keys
-           window.location.href = '/login'; // redirect to login page
+            localStorage.clear();
+           window.location.href = '/login'; 
           }}
           className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
   >
@@ -142,7 +142,7 @@ const Profile = () => {
       if (!confirmDelete) return;
 
       try {
-        await API.delete('/users/profile'); // Not sure if backend allows this!
+        await API.delete('/users/profile'); 
 
         localStorage.clear();
         window.location.href = '/signup';
@@ -155,8 +155,6 @@ const Profile = () => {
   >
     Delete Profile
   </button>
-
-  <CommentSection recipeId={recipe._id}/>
 </div>
 
 
