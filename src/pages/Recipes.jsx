@@ -54,7 +54,7 @@ const Recipes = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-red-600">
-          <p>Error loading recipes: {error.message || error}</p>
+          <p>Error loading recipes: {typeof error === 'string' ? error : error.message || 'Failed to load recipes'}</p>
           <button 
             onClick={() => dispatch(fetchAllRecipes())} 
             className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
