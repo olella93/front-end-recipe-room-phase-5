@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUserAPI } from "../features/auth/authAPI";
 import heroCake from "../assets/images/orange-macarons-macaroons-cakes-with-cup-apricot-juice-white-wooden-background-orange-linen-textile-side-view-close-up-selective-focus_71985-7838.avif";
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading, error: authError, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) navigate("/");
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (authError) {
+      setError(authError.message || authError.error || "Login failed");
+    }
+  }, [authError]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -25,21 +31,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
-
-    try {
-      const res = await loginUserAPI(formData);
-      const token = res.access_token;
-
-      localStorage.setItem("access_token", token);
-      dispatch(loginUser(token));
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      setError(err.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+    
+   
+    dispatch(loginUser(formData));
   };
 
   return (

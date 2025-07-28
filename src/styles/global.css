@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom, #fdbb89, #ffffff); /* peach to white */
+  background: linear-gradient(to bottom, #fdbb89, #ffffff); 
   color: #000000;
   line-height: 1.6;
   min-height: 100vh;
@@ -83,6 +83,27 @@ body {
 .login-button:hover {
   background-color: #fb9751;
   color: #ffffff;
+}
+
+.logout-button {
+  padding: 0.4rem 1rem;
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.welcome-text {
+  color: #f47e3b;
+  font-weight: bold;
+  margin-right: 1rem;
 }
 
 /*main*/
