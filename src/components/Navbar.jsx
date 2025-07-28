@@ -1,9 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../features/auth/authSlice';
 import '../styles/global.css';
 import logoImage from '../assets/images/recipe_room2.PNG';
 
 const Navbar = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
+  };
+
   return (
     <nav className="navbar">
       <div className="logo">
@@ -19,13 +30,30 @@ const Navbar = () => {
         <Link to="/bookmarks" className="nav-link">Bookmarks</Link>
         <Link to="/profile" className="nav-link">Profile</Link>
 
-        <Link to="/login" className="nav-link">
-          <button className="login-button">Log in</button>
-        </Link>
-
-        <Link to="/signup">
-          <button className="signup-button">Sign Up</button>
-        </Link>
+        {/* Conditional rendering based on authentication status */}
+        {!isAuthenticated ? (
+          // Show login and signup buttons when NOT logged in
+          <>
+            <Link to="/login" className="nav-link">
+              <button className="login-button">Log in</button>
+            </Link>
+            <Link to="/signup">
+              <button className="signup-button">Sign Up</button>
+            </Link>
+          </>
+        ) : (
+          // Show logout button and user info when logged in
+          <>
+            {user && (
+              <span className="nav-link welcome-text">
+                Welcome, {user.username}
+              </span>
+            )}
+            <button onClick={handleLogout} className="logout-button">
+              Logout
+            </button>
+          </>
+        )}
         
       </div>
     </nav>

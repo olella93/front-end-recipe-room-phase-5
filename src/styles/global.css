@@ -1,3 +1,4 @@
+/* ==== GENERAL RESET ==== */
 * {
   margin: 0;
   padding: 0;
@@ -6,12 +7,13 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom, #fdbb89, #ffffff); /* peach to white */
+  background: linear-gradient(to bottom, #fdbb89, #ffffff); 
   color: #000000;
   line-height: 1.6;
   min-height: 100vh;
 }
 
+/* ==== UTILITY CLASSES ==== */
 .container {
   width: 90%;
   max-width: 1200px;
@@ -83,10 +85,33 @@ body {
   color: #ffffff;
 }
 
+.logout-button {
+  padding: 0.4rem 1rem;
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.welcome-text {
+  color: #f47e3b;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+/*main*/
 main {
   padding: 2rem 0;
 }
 
+/*sections*/
 section {
   padding: 2rem 0;
   background-color: #ffffff;
@@ -95,6 +120,7 @@ section {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+/*Buttons*/
 button {
   background-color: #f47e3b;
   color: #ffffff;
@@ -110,6 +136,7 @@ button:hover {
   background-color: #fb9751;
 }
 
+/*Inputs*/
 input,
 textarea,
 select {
@@ -128,7 +155,7 @@ select:focus {
   border-color: #f47e3b;
   box-shadow: 0 0 0 2px rgba(244, 126, 59, 0.3);
 }
-
+/*Footer*/
 footer {
   background-color: #f47e3b;
   color: #ffffff;
@@ -157,6 +184,7 @@ a {
   color: inherit;
 }
 
+/* ===== Recipe Card Styles ===== */
 .recipe-card {
   width: 300px;
   background-color: #ffffff;
@@ -232,134 +260,5 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px;
-}
-
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: #f47e3b;
-  color: #ffffff;
-  padding: 0.3rem 0.6rem;
-  border-radius: 8px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom, #fdbb89, #ffffff);
-  color: #000000;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  flex: 1;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f47e3b;
-  padding: 1rem 2rem;
-  color: #ffffff;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.logo-text {
-  font-size: 1.8rem;
-  font-weight: bold;
-  background-color: #ffffff;
-  color: #f47e3b;
-  padding: 0.3rem 0.8rem;
-  border-radius: 10px;
-}
-
-/* === AUTH FORM WRAPPER === */
-.auth-form-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
-
-.auth-form {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 16px;
-  max-width: 450px;
-  width: 100%;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
-  transition: 0.3s ease;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #f47e3b;
-  box-shadow: 0 0 0 3px rgba(244, 126, 59, 0.15);
-  outline: none;
-}
-
-/* === BUTTONS === */
-.auth-form button {
-  background-color: #f47e3b;
-  color: #fff;
-  padding: 0.75rem;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.auth-form button:hover {
-  background-color: #fb9751;
-}
-
-
-footer {
-  background-color: #f47e3b;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  margin-top: auto; /* This pushes it to the bottom */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
