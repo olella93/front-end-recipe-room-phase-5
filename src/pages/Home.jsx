@@ -20,13 +20,21 @@ const Home = () => {
     window.location.href = `/recipes?search=${encodeURIComponent(searchTerm)}`;
   };
 
-  const handleShare = (recipe) => {
+  const handleShare = async (recipe) => {
     if (navigator.share) {
-      navigator.share({
-        title: recipe.title,
-        text: recipe.description,
-        url: `${window.location.origin}/recipes/${recipe._id}`,
-      });
+      try {
+        await navigator.share({
+          title: recipe.title,
+          text: recipe.description,
+          url: `${window.location.origin}/recipes/${recipe._id}`,
+        });
+      } catch (error) {
+        // User canceled the share or sharing failed
+        if (error.name !== 'AbortError') {
+          // Only show error if it's not a user cancellation
+          console.error('Error sharing:', error);
+        }
+      }
     } else {
       navigator.clipboard.writeText(`${window.location.origin}/recipes/${recipe._id}`);
       alert('Recipe link copied to clipboard!');
