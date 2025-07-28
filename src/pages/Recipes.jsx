@@ -24,14 +24,22 @@ const Recipes = () => {
     }
   };
 
-  const handleShare = (recipe) => {
+  const handleShare = async (recipe) => {
     // Handle recipe sharing
     if (navigator.share) {
-      navigator.share({
-        title: recipe.title,
-        text: recipe.description,
-        url: window.location.href + `/${recipe._id}`,
-      });
+      try {
+        await navigator.share({
+          title: recipe.title,
+          text: recipe.description,
+          url: window.location.href + `/${recipe._id}`,
+        });
+      } catch (error) {
+        // User canceled the share or sharing failed
+        if (error.name !== 'AbortError') {
+          // Only show error if it's not a user cancellation
+          console.error('Error sharing:', error);
+        }
+      }
     } else {
       // Fallback for browsers without Web Share API
       navigator.clipboard.writeText(window.location.href + `/${recipe._id}`);
