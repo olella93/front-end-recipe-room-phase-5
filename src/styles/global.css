@@ -652,4 +652,20 @@ footer {
   }
 }
 
+.signup-btn {
+  margin: 1rem auto 2rem;
+  display: block;
+  background-color: #f47e3b;
+  color: white;
+  padding: 1.0rem 2.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+  background-color: #fb9751;
+}
 
