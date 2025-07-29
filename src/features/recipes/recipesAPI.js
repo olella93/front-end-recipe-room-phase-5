@@ -1,46 +1,32 @@
 import API from "../../services/api";
 
-export const getAllRecipesAPI = async () => {
+// Helper for cleaner error throwing
+const handleError = (error) => {
+  throw error.response?.data || error.message || error;
+};
+
+// Unified request wrapper (optional but clean)
+const request = async (method, url, data = null) => {
   try {
-    const response = await API.get("/recipes");
+    const response = await API[method](url, data);
     return response.data;
   } catch (error) {
-    throw error;
+    handleError(error);
   }
 };
 
-export const getRecipeByIdAPI = async (id) => {
-  try {
-    const response = await API.get(`/recipes/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// 🌐 GET all recipes
+export const getAllRecipesAPI = () => request("get", "/recipes");
 
-export const createRecipeAPI = async (recipeData) => {
-  try {
-    const response = await API.post("/recipes", recipeData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// 📄 GET single recipe by ID
+export const getRecipeByIdAPI = (id) => request("get", `/recipes/${id}`);
 
-export const updateRecipeAPI = async (id, recipeData) => {
-  try {
-    const response = await API.put(`/recipes/${id}`, recipeData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// 📝 POST create recipe
+export const createRecipeAPI = (recipeData) => request("post", "/recipes", recipeData);
 
-export const searchRecipesAPI = async (searchTerm) => {
-  try {
-    const response = await API.get(`/recipes/search?q=${encodeURIComponent(searchTerm)}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// ✏️ PUT update recipe
+export const updateRecipeAPI = (id, recipeData) => request("put", `/recipes/${id}`, recipeData);
+
+// 🔍 GET search recipes
+export const searchRecipesAPI = (searchTerm) =>
+  request("get", `/recipes/search?q=${encodeURIComponent(searchTerm)}`);

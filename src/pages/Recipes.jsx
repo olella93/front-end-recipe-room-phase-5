@@ -13,7 +13,6 @@ const Recipes = () => {
 
   useEffect(() => {
    
-    // dispatch(fetchAllRecipes());
   }, [dispatch]);
 
   const handleSearch = (searchTerm) => {
@@ -27,7 +26,6 @@ const Recipes = () => {
   };
 
   const handleShare = async (recipe) => {
-    // Handle recipe sharing
     if (navigator.share) {
       try {
         await navigator.share({
@@ -36,14 +34,12 @@ const Recipes = () => {
           url: window.location.href + `/${recipe._id}`,
         });
       } catch (error) {
-        // User canceled the share or sharing failed
         if (error.name !== 'AbortError') {
           // Only show error if it's not a user cancellation
           console.error('Error sharing:', error);
         }
       }
     } else {
-      // Fallback for browsers without Web Share API
       navigator.clipboard.writeText(window.location.href + `/${recipe._id}`);
       alert('Recipe link copied to clipboard!');
     }
@@ -114,7 +110,6 @@ const Recipes = () => {
         </div>
       )}
 
-      {/* Recipe Grid */}
       {!isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayRecipes.length > 0 ? (
