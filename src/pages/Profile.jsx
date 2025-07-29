@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { uploadImageToCloudinary } from '../services/cloudinary';
 import API from '../services/api';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
     name: '',
     email: '',
-    image: '',
+    profile_image: '',
     password: '',
   });
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await API.get('/users/profile');
-        setUserData(res.data);
+        const res = await API.get('/auth/profile');
+        
+        setUserData({
+          name: res.data.name || '',
+          email: res.data.email || '',
+          profile_image: res.data.profile_image || '',
+          password: '',
+        });
         localStorage.setItem('user_profile', JSON.stringify(res.data));
       } catch (err) {
         console.error('Error fetching profile:', err);
@@ -24,17 +30,12 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    try {
-      setLoading(true);
-      const imageUrl = await uploadImageToCloudinary(file);
-      setUserData((prev) => ({ ...prev, image: imageUrl }));
-      setLoading(false);
-    } catch (err) {
-      console.error('Cloudinary upload failed:', err);
-      setLoading(false);
+    if (file) {
+      setImageFile(file);
+      // Show preview
+      setUserData((prev) => ({ ...prev, profile_image: URL.createObjectURL(file) }));
     }
   };
 
@@ -46,43 +47,52 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = {
-        name: userData.name,
-        email: userData.email,
-        image: userData.image,
-      };
-
-      // Include password if it's filled
-      if (userData.password) {
-        payload.password = userData.password;
+      setLoading(true);
+      let res;
+      if (imageFile) {
+        // Use FormData for image upload
+        const data = new FormData();
+        data.append('name', userData.name);
+        data.append('email', userData.email);
+        if (userData.password) {
+          data.append('password', userData.password);
+        }
+        data.append('profile_image', imageFile);
+        res = await API.put('/auth/profile', data);
+      } else {
+        // Use JSON for non-image update
+        res = await API.put('/auth/profile', {
+          name: userData.name,
+          email: userData.email,
+          password: userData.password
+        });
       }
-
-      const res = await API.put('/users/profile', payload);
       alert('Profile updated successfully!');
       localStorage.setItem('user_profile', JSON.stringify(res.data));
-      setUserData((prev) => ({ ...prev, password: '' })); 
+      setUserData((prev) => ({ ...prev, password: '' }));
     } catch (err) {
       console.error('Error updating profile:', err);
       alert('Failed to update profile.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-8">My Profile</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
-        <div>
-          {userData.image && (
+    <div className="min-h-screen p-8 profile-page" id="profile-page">
+      <h1 className="text-3xl font-bold mb-8 profile-title" id="profile-title">My Profile</h1>
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-xl profile-form" id="profile-form" encType="multipart/form-data">
+        <div className="profile-image-section" id="profile-image-section">
+          {userData.profile_image && (
             <img
-              src={userData.image}
+              src={userData.profile_image}
               alt="Profile"
               className="w-32 h-32 rounded-full mb-4 object-cover"
             />
           )}
-          <input type="file" onChange={handleImageChange} />
+          <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
-
-        <div>
+        <div className="profile-input-section" id="profile-input-name">
           <label>Name:</label>
           <input
             name="name"
@@ -92,8 +102,7 @@ const Profile = () => {
             required
           />
         </div>
-
-        <div>
+        <div className="profile-input-section" id="profile-input-email">
           <label>Email:</label>
           <input
             name="email"
@@ -103,8 +112,7 @@ const Profile = () => {
             required
           />
         </div>
-
-        <div>
+        <div className="profile-input-section" id="profile-input-password">
           <label>New Password:</label>
           <input
             name="password"
@@ -115,46 +123,45 @@ const Profile = () => {
             placeholder="Leave blank to keep current password"
           />
         </div>
-
         <button
           type="submit"
-          className="bg-[#f47e3b] text-white px-4 py-2 rounded hover:bg-[#fb9751]"
+          className="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700 profile-update-btn" id="profile-update-btn"
           disabled={loading}
         >
           {loading ? 'Updating...' : 'Update Profile'}
         </button>
       </form>
 
-      <div className="mt-10 space-x-4">
-         <button
+      <div className="mt-10 space-x-4 profile-actions" id="profile-actions">
+        <button
           onClick={() => {
             localStorage.clear();
-           window.location.href = '/login'; 
+            window.location.href = '/login'; 
           }}
-          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
-  >
-    Logout
-  </button>
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 profile-logout-btn" id="profile-logout-btn"
+        >
+          Logout
+        </button>
 
-  <button
-    onClick={async () => {
-      const confirmDelete = window.confirm('Are you sure you want to delete your profile? This cannot be undone.');
-      if (!confirmDelete) return;
+        <button
+          onClick={async () => {
+            const confirmDelete = window.confirm('Are you sure you want to delete your profile? This cannot be undone.');
+            if (!confirmDelete) return;
 
-      try {
-        await API.delete('/users/profile'); 
+            try {
+              await API.delete('/auth/profile'); 
 
-        localStorage.clear();
-        window.location.href = '/signup';
-      } catch (err) {
-        console.error('Delete failed:', err);
-        alert('Failed to delete your profile.');
-      }
-    }}
-    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-  >
-    Delete Profile
-  </button>
+              localStorage.clear();
+              window.location.href = '/signup';
+            } catch (err) {
+              console.error('Delete failed:', err);
+              alert('Failed to delete your profile.');
+            }
+          }}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 profile-delete-btn" id="profile-delete-btn"
+        >
+          Delete Profile
+        </button>
 </div>
 
 
