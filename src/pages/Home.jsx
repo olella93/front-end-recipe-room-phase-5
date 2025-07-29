@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     
-    // dispatch(fetchAllRecipes());
+    dispatch(fetchAllRecipes());
   }, [dispatch]);
 
   const handleSearch = (searchTerm) => {
@@ -45,10 +45,10 @@ const Home = () => {
   const featuredRecipes = recipes.slice(0, 6);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen home-page" id="home-page">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-400 to-orange-600 text-white py-16">
-        <div className="container mx-auto px-4 text-center">
+      <div className="bg-gradient-to-r from-orange-400 to-orange-600 text-white py-16 hero-section" id="hero-section">
+        <div className="container mx-auto px-4 text-center hero-content" id="hero-content">
           <h1 className="text-5xl font-bold mb-4">Welcome to Recipe Room</h1>
           <p className="text-xl mb-8">Discover and share amazing recipes from around the world!</p>
           
@@ -60,8 +60,8 @@ const Home = () => {
       </div>
 
       {/* Featured Recipes Section */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-8">
+      <div className="container mx-auto px-4 py-12 featured-section" id="featured-section">
+        <div className="flex justify-between items-center mb-8 featured-header" id="featured-header">
           <h2 className="text-3xl font-bold text-gray-800">Featured Recipes</h2>
           <Link 
             to="/recipes" 
@@ -76,10 +76,10 @@ const Home = () => {
             <div className="text-orange-600 text-lg">Loading recipes...</div>
           </div>
         ) : featuredRecipes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredRecipes.map((recipe) => (
+          <div className="grid grid-cols-3 gap-8 featured-grid" id="featured-grid">
+            {featuredRecipes.map((recipe, idx) => (
               <RecipeCard 
-                key={recipe._id || recipe.id} 
+                key={recipe._id || recipe.id || idx} 
                 recipe={recipe} 
                 onShare={handleShare}
               />
@@ -102,8 +102,8 @@ const Home = () => {
 
       {/* Call to Action Section */}
       {!isAuthenticated && (
-        <div className="bg-gray-50 py-16">
-          <div className="container mx-auto px-4 text-center">
+        <div className="bg-gray-50 py-16 cta-section" id="cta-section">
+          <div className="container mx-auto px-4 text-center cta-content" id="cta-content">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Join Our Community</h2>
             <p className="text-lg text-gray-600 mb-8">
               Sign up to share your recipes, save favorites, and connect with fellow food lovers.

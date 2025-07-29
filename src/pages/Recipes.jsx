@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllRecipes, searchRecipes, clearSearchResults } from '../features/recipes/recipesSlice';
 import SearchBar from '../components/SearchBar';
 import RecipeCard from '../components/RecipeCard';
+import { Link } from 'react-router-dom';
 
 const Recipes = () => {
   const dispatch = useDispatch();
   const { items: recipes, searchResults, loading, searchLoading, error } = useSelector((state) => state.recipes);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
@@ -69,6 +71,16 @@ const Recipes = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Recipe Collection</h1>
+      {/* Add Recipe Button */}
+      {isAuthenticated && (
+        <div className="flex justify-end max-w-4xl mx-auto mb-6">
+          <Link to="/create">
+            <button className="bg-orange-500 text-white px-6 py-2 rounded-lg shadow hover:bg-orange-600 transition">
+              + Add Recipe
+            </button>
+          </Link>
+        </div>
+      )}
       
       {/* Search Bar */}
       <div className="max-w-md mx-auto mb-8">

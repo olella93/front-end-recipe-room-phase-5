@@ -20,7 +20,7 @@ export const loginUserAPI = async (credentials) => {
 
 export const getCurrentUserAPI = async () => {
   try {
-    const response = await API.get("/auth/me");
+    const response = await API.get("/auth/profile"); 
     return response.data;
   } catch (error) {
     throw error;
