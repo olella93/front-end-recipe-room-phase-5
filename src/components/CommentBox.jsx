@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setComments, addComment, editComment } from '../redux/features/comments/commentSlice';
+import { setComments, addComment, editComment } from '../features/comments/commentsSlice';
 import { fetchComments, postComment, updateComment } from '../services/commentAPI';
 
 const CommentSection = ({ recipeId }) => {
