@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import { uploadImageToCloudinary } from '../services/cloudinary';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -30,12 +31,19 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageFile(file);
-      // Show preview
-      setUserData((prev) => ({ ...prev, profile_image: URL.createObjectURL(file) }));
+      setLoading(true);
+      try {
+        // Upload to Cloudinary and get URL
+        const imageUrl = await uploadImageToCloudinary(file);
+        setUserData((prev) => ({ ...prev, profile_image: imageUrl }));
+      } catch (err) {
+        alert('Image upload failed.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -46,27 +54,16 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      setLoading(true);
-      let res;
-      if (imageFile) {
-        // Use FormData for image upload
-        const data = new FormData();
-        data.append('name', userData.name);
-        data.append('email', userData.email);
-        if (userData.password) {
-          data.append('password', userData.password);
-        }
-        data.append('profile_image', imageFile);
-        res = await API.put('/auth/profile', data);
-      } else {
-        // Use JSON for non-image update
-        res = await API.put('/auth/profile', {
-          name: userData.name,
-          email: userData.email,
-          password: userData.password
-        });
-      }
+      // Only send JSON to /auth/profile
+      const payload = {
+        username: userData.name,
+        email: userData.email,
+        profile_image: userData.profile_image,
+      };
+      if (userData.password) payload.password = userData.password;
+      const res = await API.put('/auth/profile', payload);
       alert('Profile updated successfully!');
       localStorage.setItem('user_profile', JSON.stringify(res.data));
       setUserData((prev) => ({ ...prev, password: '' }));
@@ -81,7 +78,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen p-8 profile-page" id="profile-page">
       <h1 className="text-3xl font-bold mb-8 profile-title" id="profile-title">My Profile</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-xl profile-form" id="profile-form" encType="multipart/form-data">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-xl profile-form" id="profile-form">
         <div className="profile-image-section" id="profile-image-section">
           {userData.profile_image && (
             <img
