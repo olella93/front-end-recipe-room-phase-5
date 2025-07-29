@@ -1,7 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getAllRecipesAPI, getRecipeByIdAPI, createRecipeAPI, updateRecipeAPI, searchRecipesAPI } from './recipesAPI';
+import {
+  getAllRecipesAPI,
+  getRecipeByIdAPI,
+  createRecipeAPI,
+  updateRecipeAPI,
+  searchRecipesAPI
+} from './recipesAPI';
 
-// Async thunks
+// Thunks
 export const fetchAllRecipes = createAsyncThunk(
   'recipes/fetchAll',
   async (_, thunkAPI) => {
@@ -18,7 +24,6 @@ export const searchRecipes = createAsyncThunk(
   'recipes/search',
   async (searchTerm, thunkAPI) => {
     try {
-      // Call backend API for search
       const response = await searchRecipesAPI(searchTerm);
       return response;
     } catch (error) {
@@ -63,15 +68,15 @@ export const updateRecipe = createAsyncThunk(
   }
 );
 
-// No hardcoded recipes - all data should come from backend
-
+// Initial state
 const initialState = {
-  items: [], // Start with empty array - will be populated from backend
+  items: [],
   currentRecipe: null,
   loading: false,
   error: null,
   searchResults: [],
   searchLoading: false,
+  animationTrigger: null, // ID of recipe to animate
 };
 
 const recipesSlice = createSlice({
@@ -84,10 +89,13 @@ const recipesSlice = createSlice({
     clearSearchResults: (state) => {
       state.searchResults = [];
     },
+    clearAnimationTrigger: (state) => {
+      state.animationTrigger = null;
+    }
   },
   extraReducers: (builder) => {
     builder
-      // Fetch all recipes
+      // Fetch all
       .addCase(fetchAllRecipes.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -100,8 +108,8 @@ const recipesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
-      // Search recipes
+
+      // Search
       .addCase(searchRecipes.pending, (state) => {
         state.searchLoading = true;
         state.error = null;
@@ -114,8 +122,8 @@ const recipesSlice = createSlice({
         state.searchLoading = false;
         state.error = action.payload;
       })
-      
-      // Fetch recipe by ID
+
+      // Fetch by ID
       .addCase(fetchRecipeById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -128,8 +136,8 @@ const recipesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
-      // Create recipe
+
+      // Create
       .addCase(createRecipe.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -137,13 +145,14 @@ const recipesSlice = createSlice({
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.loading = false;
         state.items.push(action.payload);
+        state.animationTrigger = action.payload.id; // Trigger animation for new item
       })
       .addCase(createRecipe.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      
-      // Update recipe
+
+      // Update
       .addCase(updateRecipe.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -157,13 +166,19 @@ const recipesSlice = createSlice({
         if (state.currentRecipe && state.currentRecipe.id === action.payload.id) {
           state.currentRecipe = action.payload;
         }
+        state.animationTrigger = action.payload.id; // Trigger animation for updated item
       })
       .addCase(updateRecipe.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
-  },
+  }
 });
 
-export const { clearCurrentRecipe, clearSearchResults } = recipesSlice.actions;
+export const {
+  clearCurrentRecipe,
+  clearSearchResults,
+  clearAnimationTrigger
+} = recipesSlice.actions;
+
 export default recipesSlice.reducer;
