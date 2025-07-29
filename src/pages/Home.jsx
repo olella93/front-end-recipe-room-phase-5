@@ -1,9 +1,39 @@
+
+import React from 'react';
+import recipe1 from '../assets/images/a1034bea2b87f98a8e7f102470a5bfd0.jpg';
+import recipe2 from '../assets/images/download (2).jpeg';
+import recipe3 from '../assets/images/download (1).jpeg';
+import recipe4 from '../assets/images/peach-macarons-8568.webp';
+import '../styles/global.css';
+
+const featuredRecipes = [
+  {
+    image: recipe1,
+    title: 'Spaghetti Bolognese',
+    description: 'A simple meaty pasta dish perfect for dinner.',
+  },
+  {
+    image: recipe2,
+    title: 'Avocado Toast',
+    description: 'A creamy and crunchy breakfast favorite.',
+  },
+  {
+    image: recipe3,
+    title: 'Grilled Chicken',
+    description: 'Juicy grilled chicken with a smoky kick.',
+  },
+  {
+    image: recipe4,
+    title: 'Fresh Fruit Salad',
+    description: 'Colorful mix of juicy fruits to refresh your day.',
+  },
+];
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAllRecipes } from '../features/recipes/recipesSlice';
 import SearchBar from '../components/SearchBar';
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard from '../components/RecipeCard'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -45,6 +75,28 @@ const Home = () => {
   const featuredRecipes = recipes.slice(0, 6);
 
   return (
+
+    <div className="home-wrapper">
+      <div className="hero-container">
+        <h1>Find and share simple recipes</h1>
+        <p>Discover easy-to-make recipes and contribute your own contributions</p>
+        <div className="search-bar">
+          <input type="text" placeholder="Search for recipes..." />
+        </div>
+      </div>
+
+      <div className="featured-section">
+        <h2>Featured Recipes</h2>
+        <div className="recipe-grid">
+          {featuredRecipes.map((recipe, index) => (
+            <div key={index} className="recipe-card">
+              <img src={recipe.image} alt={recipe.title} />
+              <h3>{recipe.title}</h3>
+              <p>{recipe.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     <div className="min-h-screen home-page" id="home-page">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-orange-400 to-orange-600 text-white py-16 hero-section" id="hero-section">
@@ -125,6 +177,7 @@ const Home = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
