@@ -1,10 +1,10 @@
 export const uploadImageToCloudinary = async (file) => {
   // Cloudinary configuration from environment variables
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'your_cloud_name';
-  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || 'your_upload_preset';
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'dnzvxc6id';
+  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || 'recipe_unsigned';
 
   // Check if Cloudinary is properly configured
-  if (cloudName === 'your_cloud_name' || uploadPreset === 'your_upload_preset') {
+  if (cloudName === 'dnzvxc6id' || uploadPreset === 'recipe_unsigned') {
     console.warn('Cloudinary not configured. Please set REACT_APP_CLOUDINARY_CLOUD_NAME and REACT_APP_CLOUDINARY_UPLOAD_PRESET in your .env file');
     throw new Error('Cloudinary configuration missing');
   }
