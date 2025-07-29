@@ -38,9 +38,9 @@ const Login = () => {
 
   return (
     <div className="login-wrapper">
-      <div className="login-hero">
+      {/* <div className="login-hero">
         <img src={heroCake} alt="Delicious cake" className="login-hero-img" />
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit} className="login-container">
         <h2 className="login-heading">Welcome Back </h2>
