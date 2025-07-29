@@ -32,14 +32,13 @@ const Navbar = () => {
 
         {/* Conditional rendering based on authentication status */}
         {!isAuthenticated ? (
-          // Show login and signup buttons when NOT logged in
           <>
             <Link to="/login" className="nav-link" id="nav-link-login">
               <button className="login-button" id="login-button">Log in</button>
             </Link>
-            <Link to="/signup" id="nav-link-signup">
+            {/* <Link to="/signup" id="nav-link-signup">
               <button className="signup-button" id="signup-button">Sign Up</button>
-            </Link>
+            </Link> */}
           </>
         ) : (
           // Show logout button and user info when logged in
