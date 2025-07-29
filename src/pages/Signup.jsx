@@ -48,7 +48,7 @@ const Signup = () => {
         <h2 className="signup-heading">Get Started</h2>
 
         {user && <p className="success-text">Signed up successfully!</p>}
-        {error && <p className="error-text">Something went wrong: {error}</p>}
+        {error && <p className="error-text">Something went wrong: {typeof error === 'string' ? error : error.message || 'An error occurred'}</p>}
 
         <input
           type="text"
