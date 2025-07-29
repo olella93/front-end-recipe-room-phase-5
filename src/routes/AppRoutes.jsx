@@ -13,6 +13,7 @@ import Profile from '../pages/Profile';
 import RecipeDetail from '../pages/RecipeDetail';
 import Bookmarks from '../pages/Bookmarks';
 import CreateRecipe from '../pages/CreateRecipe';
+import EditRecipe from '../pages/EditRecipe';
 import Recipes from '../pages/Recipes';
 import GroupRecipe from '../pages/GroupRecipe';
 
@@ -55,6 +56,10 @@ const AppRoutes = () => {
         {
           path: 'create',
           element: isAuthenticated ? <CreateRecipe /> : <Navigate to="/login" replace />,
+        },
+        {
+          path: 'edit/:id',
+          element: isAuthenticated ? <EditRecipe /> : <Navigate to="/login" replace />,
         },
         {
           path: 'group',

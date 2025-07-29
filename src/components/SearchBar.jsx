@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
-function SearchBar() {
+function SearchBar({ onSearch }) {
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchText);
-    
+    if (onSearch) {
+      onSearch(searchText);
+    } else {
+      console.log("Searching for:", searchText);
+    }
   };
 
   return (
@@ -20,7 +23,7 @@ function SearchBar() {
       />
       <button 
         type="submit" 
-        className="mt-2 bg-orange-500 text-white px-4 py-2 rounded"
+        className="mt-2 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 w-full"
       >
         Search
       </button>
