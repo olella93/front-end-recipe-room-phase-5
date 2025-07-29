@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import API from '../services/api';
 import { uploadImageToCloudinary } from '../services/cloudinary';
+import API from '../services/api';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
     name: '',
     email: '',
-    profile_image: '',
+    image: '',
     password: '',
   });
-  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+
+        const res = await API.get('/users/profile');
+        setUserData(res.data);
+
         const res = await API.get('/auth/profile');
         
         setUserData({
@@ -23,6 +26,7 @@ const Profile = () => {
           profile_image: res.data.profile_image || '',
           password: '',
         });
+
         localStorage.setItem('user_profile', JSON.stringify(res.data));
       } catch (err) {
         console.error('Error fetching profile:', err);
@@ -33,17 +37,15 @@ const Profile = () => {
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (!file) return;
+    try {
       setLoading(true);
-      try {
-        // Upload to Cloudinary and get URL
-        const imageUrl = await uploadImageToCloudinary(file);
-        setUserData((prev) => ({ ...prev, profile_image: imageUrl }));
-      } catch (err) {
-        alert('Image upload failed.');
-      } finally {
-        setLoading(false);
-      }
+      const imageUrl = await uploadImageToCloudinary(file);
+      setUserData((prev) => ({ ...prev, image: imageUrl }));
+      setLoading(false);
+    } catch (err) {
+      console.error('Cloudinary upload failed:', err);
+      setLoading(false);
     }
   };
 
@@ -54,34 +56,47 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      // Only send JSON to /auth/profile
       const payload = {
-        username: userData.name,
+        name: userData.name,
         email: userData.email,
-        profile_image: userData.profile_image,
+        image: userData.image,
       };
       if (userData.password) payload.password = userData.password;
+
+
+      const res = await API.put('/users/profile', payload);
+
       const res = await API.put('/auth/profile', payload);
+
       alert('Profile updated successfully!');
       localStorage.setItem('user_profile', JSON.stringify(res.data));
       setUserData((prev) => ({ ...prev, password: '' }));
     } catch (err) {
       console.error('Error updating profile:', err);
       alert('Failed to update profile.');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
+
+    <div className="profile-container min-h-screen bg-[#fdbb89] py-10 px-6 flex justify-center">
+      <div className="max-w-3xl w-full bg-white p-8 rounded shadow-lg">
+        <h1 className="text-3xl font-bold text-[#f47e3b] mb-8 animate-fade-in-down">
+          My Profile
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex flex-col items-center animate-fade-in">
+            {userData.image && (
+
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-white to-orange-200 profile-page" id="profile-page">
       <div className="profile-card bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-orange-600 mb-6 text-center profile-title" id="profile-title">My Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-6 profile-form" id="profile-form">
           <div className="flex flex-col items-center mb-4 profile-image-section" id="profile-image-section">
             <div className="relative w-24 h-24">
+
               <img
                 src={userData.profile_image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=f47e3b&color=fff&size=96'}
                 alt="Profile"
