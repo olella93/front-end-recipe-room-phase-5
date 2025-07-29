@@ -27,6 +27,15 @@ export const createRecipeAPI = async (recipeData) => {
   }
 };
 
+export const updateRecipeAPI = async (id, recipeData) => {
+  try {
+    const response = await API.put(`/recipes/${id}`, recipeData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const searchRecipesAPI = async (searchTerm) => {
   try {
     const response = await API.get(`/recipes/search?q=${encodeURIComponent(searchTerm)}`);
