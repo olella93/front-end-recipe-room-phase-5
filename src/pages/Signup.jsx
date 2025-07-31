@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Notification from '../components/Notification';
 import { useDispatch } from 'react-redux';
 import { signup } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [notification, setNotification] = useState('');
 
   const [formData, setFormData] = useState({
     username: '',
@@ -22,7 +24,11 @@ export default function Signup() {
     e.preventDefault();
     try {
       await dispatch(signup(formData)).unwrap();
-      navigate('/login');
+      setNotification('Signup successful! You can now log in.');
+      setTimeout(() => {
+        setNotification('');
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       console.error('Signup failed', err);
     }
@@ -31,6 +37,7 @@ export default function Signup() {
   return (
     <div className="form-container signup-form-container">
       <h1 className="form-title">Sign Up</h1>
+      <Notification message={notification} onClose={() => setNotification('')} />
       <form className="form signup-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="signup-username">Username</label>
