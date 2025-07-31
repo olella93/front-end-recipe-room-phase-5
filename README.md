@@ -1,6 +1,9 @@
 
 
+
 # Recipe Room
+
+![Recipe Room Homepage Preview](https://i.imgur.com/aNES7r1.png)
 
 **Live Demo:** [https://front-end-recipe-room-phase-5-zzxt.vercel.app/](https://front-end-recipe-room-phase-5-zzxt.vercel.app/)
 
