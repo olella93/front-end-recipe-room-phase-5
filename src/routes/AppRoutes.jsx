@@ -1,87 +1,28 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-import Layout from '../components/Layout';
-import Signup from '../pages/Signup';
-import Login from '../pages/Login';
+import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 import Profile from '../pages/Profile';
 import RecipeDetail from '../pages/RecipeDetail';
-import Bookmarks from '../pages/Bookmarks';
 import CreateRecipe from '../pages/CreateRecipe';
-import EditRecipe from '../pages/EditRecipe';
-import Recipes from '../pages/Recipes';
+import Bookmarks from '../pages/Bookmarks';
 import GroupRecipe from '../pages/GroupRecipe';
+import GroupsList from '../pages/GroupsList';
+import EditRecipe from '../pages/EditRecipe';
 
-const AppRoutes = () => {
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-orange-600 text-xl">
-        Loading...
-      </div>
-    );
-  }
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          index: true,
-          element: <Home />,
-        },
-        {
-          path: 'recipes',
-          element: <Recipes />,
-        },
-        {
-          path: 'recipes/:id',
-          element: isAuthenticated ? <RecipeDetail /> : <Navigate to="/login" replace />,
-        },
-        {
-          path: 'profile',
-          element: isAuthenticated ? <Profile /> : <Navigate to="/login" replace />,
-        },
-        {
-          path: 'bookmarks',
-          element: isAuthenticated ? <Bookmarks /> : <Navigate to="/login" replace />,
-        },
-        {
-          path: 'create',
-          element: isAuthenticated ? <CreateRecipe /> : <Navigate to="/login" replace />,
-        },
-        {
-          path: 'edit/:id',
-          element: isAuthenticated ? <EditRecipe /> : <Navigate to="/login" replace />,
-        },
-        {
-          path: 'group',
-          element: isAuthenticated ? <GroupRecipe /> : <Navigate to="/login" replace />,
-        },
-      ],
-    },
-    {
-      path: '/signup',
-      element: isAuthenticated ? <Navigate to="/" replace /> : <Signup />,
-    },
-    {
-      path: '/login',
-      element: isAuthenticated ? <Navigate to="/" replace /> : <Login />,
-    },
-    {
-      path: '*',
-      element: <Navigate to="/" replace />,
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
-};
-
-export default AppRoutes;
+export default function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/recipes/:id" element={<RecipeDetail />} />
+      <Route path="/create-recipe" element={<CreateRecipe />} />
+      <Route path="/bookmarks" element={<Bookmarks />} />
+      <Route path="/groups" element={<GroupsList />} />
+      <Route path="/groups/:id/recipes" element={<GroupRecipe />} />
+      <Route path="/recipes/:id/edit" element={<EditRecipe />} />
+    </Routes>
+  );
+}

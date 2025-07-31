@@ -9,6 +9,7 @@ const Recipes = () => {
   const dispatch = useDispatch();
   const { items: recipes, searchResults, loading, searchLoading, error } = useSelector((state) => state.recipes);
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const bookmarks = useSelector((state) => state.bookmarks.items);
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Recipes = () => {
   }, [dispatch]);
 
   const handleSearch = (searchTerm) => {
-    if (searchTerm.trim()) {
+    if (searchTerm.trim().length > 0) {
       setIsSearching(true);
       dispatch(searchRecipes(searchTerm));
     } else {
@@ -51,6 +52,10 @@ const Recipes = () => {
 
   const displayRecipes = isSearching ? searchResults : recipes;
   const isLoading = isSearching ? searchLoading : loading;
+
+  // Debug logs
+  console.log('Search Results:', searchResults);
+  console.log('All Recipes:', recipes);
 
   if (error) {
     return (
@@ -116,7 +121,7 @@ const Recipes = () => {
 
       {/* Recipe Grid */}
       {!isLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="recipe-grid">
           {displayRecipes.length > 0 ? (
             displayRecipes.map((recipe) => (
               <RecipeCard 

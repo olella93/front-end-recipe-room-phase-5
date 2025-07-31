@@ -1,0 +1,26 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.navbar a {
+  color: var(--text-light);
+  margin: 0 1rem;
+  font-weight: bold;
+}
+
+.navbar-logo a {
+  font-size: 1.4rem;
+}
+
+.navbar-links button {
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  font-weight: bold;
+  cursor: pointer;
+}

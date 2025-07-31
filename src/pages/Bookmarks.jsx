@@ -1,33 +1,63 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import RecipeCard from "../components/RecipeCard";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBookmarks, deleteBookmark } from '../features/bookmarks/bookmarksSlice';
+import RecipeCard from '../components/RecipeCard';
 
-const Bookmarks = () => {
-  const bookmarks = useSelector((state) => state.bookmarks.items); // matches with bookmarkSlice.js
-  
-  const handleShare = (recipe) => {
-    navigator.clipboard.writeText(`${window.location.origin}/recipes/${recipe._id}`);
-    alert('Link copied to clipboard');
+export default function Bookmarks() {
+  const dispatch = useDispatch();
+  const { list, loading, error } = useSelector((state) => state.bookmarks);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchBookmarks());
+    }
+  }, [dispatch, user]);
+
+  const handleRemove = (id) => {
+    if (window.confirm('Remove this bookmark?')) {
+      dispatch(deleteBookmark(id));
+    }
+  };
+
+  if (!user) {
+    return <p>You must be logged in to view your bookmarks.</p>;
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-[#fdbb89]">
-      <h1 className="text-3xl font-bold text-orange-700 mb-6">Your Bookmarked Recipes</h1>
+    <div>
+      <h1>My Bookmarked Recipes</h1>
+      {loading && <p>Loading bookmarks...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {list.length === 0 && !loading && <p>No bookmarks yet.</p>}
 
-      {bookmarks.length === 0 ? (
-        <p className="text-gray-600 text-lg">
-          You haven't bookmarked any recipes yet!
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {bookmarks.map((recipe) => (
-            <RecipeCard key={recipe._id} recipe={recipe} />
-          ))}
-        </div>
-      )
-      };
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+        gap: '1.5rem',
+        marginTop: '1rem'
+      }}>
+        {list.map((bookmark) => (
+          <div key={bookmark.id} style={{ position: 'relative' }}>
+            <RecipeCard recipe={bookmark.recipe} />
+            <button
+              onClick={() => handleRemove(bookmark.id)}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'red',
+                color: 'white',
+                border: 'none',
+                padding: '0.3rem 0.6rem',
+                cursor: 'pointer'
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
-
-export default Bookmarks;
+}

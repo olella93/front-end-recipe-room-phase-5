@@ -1,75 +1,44 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaStar, FaBookmark, FaRegBookmark, FaShareAlt } from 'react-icons/fa';
-import { addBookmark, removeBookmark } from '../features/bookmarks/bookmarkSlice';
-import { useNavigate } from 'react-router-dom';
+import { addBookmark } from '../features/bookmarks/bookmarksSlice';
+import './RecipeCard.css';
 
-const RecipeCard = ({ recipe, onShare }) => {
+export default function RecipeCard({ recipe }) {
   const dispatch = useDispatch();
-  const bookmarks = useSelector((state) => state.bookmarks.items);
-  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
-  const isBookmarked = bookmarks.some((item) => item._id === recipe._id);
+  if (!recipe) {
+    return null;
+  }
 
-  const handleBookmarkToggle = () => {
-    if (isBookmarked) {
-      dispatch(removeBookmark(recipe._id));
-    } else {
-      dispatch(addBookmark(recipe));
+  const handleBookmark = () => {
+    if (recipe.id) {
+      dispatch(addBookmark(recipe.id));
     }
   };
 
-  const handleCardClick = (e) => {
-    // Prevent navigation if clicking on a button inside the card
-    if (e.target.closest('button')) return;
-    navigate(`/recipes/${recipe.id || recipe._id}`);
-  };
-
-  // Always use backend image_url for images
-  const imageSrc = recipe.image_url || "https://placehold.co/800x400";
+  const imageUrl = recipe.image_url || '/default-recipe-image.jpg';
+  const title = recipe.title || 'Untitled';
+  const description = recipe.description ? recipe.description.slice(0, 80) + '...' : '';
 
   return (
-    <div
-      className="recipe-card bg-white shadow-md rounded-lg overflow-hidden p-4 transition duration-200 hover:shadow-lg cursor-pointer card" id={`recipe-card-${recipe.id || recipe._id}`}
-      onClick={handleCardClick}
-      tabIndex={0}
-      role="button"
-      onKeyDown={e => { if (e.key === 'Enter') handleCardClick(e); }}
-    >
-      <img
-        src={imageSrc}
-        alt={recipe.title}
-        className="w-full h-48 object-cover rounded-md mb-4 card-img" id={`card-img-${recipe.id || recipe._id}`}
-      />
-
-      <div className="card-content" id={`card-content-${recipe.id || recipe._id}`}> 
-        <h3 className="text-xl font-bold mb-2 card-title" id={`card-title-${recipe.id || recipe._id}`}>{recipe.title}</h3>
-        <p className="text-gray-700 text-sm mb-2 card-description" id={`card-description-${recipe.id || recipe._id}`}>{recipe.description}</p>
-
-        <div className="flex items-center mb-4 card-rating" id={`card-rating-${recipe.id || recipe._id}`}> 
-          {[...Array(5)].map((_, index) => (
-            <FaStar
-              key={index}
-              className="mr-1"
-              color={index < recipe.rating ? '#f47e3b' : '#ccc'}
-            />
-          ))}
-        </div>
-
-        <div className="flex justify-between card-actions" id={`card-actions-${recipe.id || recipe._id}`}> 
-          <button onClick={handleBookmarkToggle} className="flex items-center gap-1 text-orange-600 hover:text-orange-800">
-            {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-            {isBookmarked ? 'Bookmarked' : 'Bookmark'}
+    <div className="recipe-card">
+      <img src={imageUrl} alt={title} />
+      <div className="recipe-info">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        {recipe.id && (
+          <Link to={`/recipes/${recipe.id}`} className="view-btn">
+            View Recipe
+          </Link>
+        )}
+        {user && recipe.id && (
+          <button onClick={handleBookmark} className="bookmark-btn">
+            ★ Bookmark
           </button>
-
-          <button onClick={e => { e.stopPropagation(); onShare(recipe); }} className="flex items-center gap-1 text-black hover:text-orange-600">
-            <FaShareAlt />
-            Share
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
-};
-
-export default RecipeCard;
+}

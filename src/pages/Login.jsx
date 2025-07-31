@@ -1,82 +1,48 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/auth/authSlice";
-import { useNavigate, Link } from "react-router-dom";
-import heroCake from "../assets/images/orange-macarons-macaroons-cakes-with-cup-apricot-juice-white-wooden-background-orange-linen-textile-side-view-close-up-selective-focus_71985-7838.avif";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
-
+export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error: authError, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
-    if (authError) {
-      setError(authError.message || authError.error || "Login failed");
-    }
-  }, [authError]);
+  const [credentials, setCredentials] = useState({
+    username: '',
+    password: ''
+  });
 
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    
-   
-    dispatch(loginUser(formData));
+    try {
+      await dispatch(login(credentials)).unwrap();
+      navigate('/');
+    } catch (err) {
+      console.error('Login failed', err);
+    }
   };
 
   return (
-    <div className="login-wrapper">
-      <div className="login-hero">
-        <img src={heroCake} alt="Delicious cake" className="login-hero-img" />
-      </div>
-
-      <form onSubmit={handleSubmit} className="login-container">
-        <h2 className="login-heading">Welcome Back </h2>
-
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-
-        {error && <p className="error-text">{error}</p>}
-
-        <button type="submit" disabled={loading} className="login-btn">
-          {loading ? "Logging in..." : "Login"}
-        </button>
-
-        <p className="login-bottom-link">Don't have an account? <Link to="/signup">Get Started</Link>
-        </p>
-        
+    <div className="form-container login-form-container">
+      <h1 className="form-title">Login</h1>
+      {error && <p className="form-error">{error}</p>}
+      <form className="form login-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="login-username">Username</label>
+          <input id="login-username" type="text" name="username" value={credentials.username} onChange={handleChange} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="login-password">Password</label>
+          <input id="login-password" type="password" name="password" value={credentials.password} onChange={handleChange} required />
+        </div>
+        <button className="form-btn" type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
       </form>
     </div>
   );
-};
-
-export default Login;
+}

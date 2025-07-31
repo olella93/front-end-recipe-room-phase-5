@@ -1,28 +1,33 @@
-import { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
 
-function Rating() {
-  const [rating, setRating] = useState(0);
+export default function RatingStars({ currentRating = 0, onRate }) {
   const [hover, setHover] = useState(0);
+  const [rating, setRating] = useState(currentRating);
+
+  useEffect(() => {
+    setRating(currentRating);
+  }, [currentRating]);
 
   return (
-    <div className="flex">
+    <div>
       {[1, 2, 3, 4, 5].map((star) => (
-        <button
+        <span
           key={star}
-          onClick={() => setRating(star)}
+          style={{
+            cursor: 'pointer',
+            color: star <= (hover || rating) ? 'gold' : 'gray',
+            fontSize: '1.5rem'
+          }}
+          onClick={() => {
+            setRating(star);
+            if (onRate) onRate(star);
+          }}
           onMouseEnter={() => setHover(star)}
           onMouseLeave={() => setHover(0)}
-          className="text-2xl"
         >
-          <FaStar 
-            className={star <= (hover || rating) ? "text-yellow-400" : "text-gray-300"} 
-          />
-        </button>
+          ★
+        </span>
       ))}
-      <p className="ml-2">Rating: {rating} stars</p>
     </div>
   );
 }
-
-export default Rating;

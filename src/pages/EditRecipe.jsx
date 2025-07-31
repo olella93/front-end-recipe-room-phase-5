@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipeById, updateRecipe } from '../features/recipes/recipesSlice';
+import { uploadImageToCloudinary } from '../services/cloudinary';
 
 const EditRecipe = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const EditRecipe = () => {
     instructions: '',
     country: '',
     serving_size: '',
+    image_url: '',
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -29,29 +31,25 @@ const EditRecipe = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (currentRecipe && user) {
-      // Debug: log user and recipe owner
-      console.log('EditRecipe check:', {
-        recipeUserId: currentRecipe.user_id,
-        userId: user.id
+   
+    if (loading || !currentRecipe || !user) return;
+    if (String(currentRecipe.user_id) !== String(user.id)) {
+      alert('You can only edit your own recipes!');
+      navigate('/');
+    } else {
+      setFormData({
+        title: currentRecipe.title || '',
+        description: currentRecipe.description || '',
+        ingredients: Array.isArray(currentRecipe.ingredients) 
+          ? currentRecipe.ingredients.join('\n') 
+          : currentRecipe.ingredients || '',
+        instructions: currentRecipe.instructions || '',
+        country: currentRecipe.country || '',
+        serving_size: currentRecipe.serving_size || '',
+        image_url: currentRecipe.image_url || '',
       });
-      if (currentRecipe.user_id && user.id && String(currentRecipe.user_id) !== String(user.id)) {
-        alert('You can only edit your own recipes!');
-        navigate('/');
-      } else if (currentRecipe.user_id && user.id) {
-        setFormData({
-          title: currentRecipe.title || '',
-          description: currentRecipe.description || '',
-          ingredients: Array.isArray(currentRecipe.ingredients) 
-            ? currentRecipe.ingredients.join('\n') 
-            : currentRecipe.ingredients?.replace(/[\"{},]/g, '').split(' ').join('\n') || '',
-          instructions: currentRecipe.instructions || '',
-          country: currentRecipe.country || '',
-          serving_size: currentRecipe.serving_size || '',
-        });
-      }
     }
-  }, [currentRecipe, user, navigate]);
+  }, [currentRecipe, user, loading, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,14 +73,16 @@ const EditRecipe = () => {
       return;
     }
     try {
-      const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value);
-      });
+      let image_url = formData.image_url;
       if (imageFile) {
-        data.append('image', imageFile);
+        const uploadResult = await uploadImageToCloudinary(imageFile);
+        image_url = uploadResult.secure_url;
       }
-      await dispatch(updateRecipe({ id, recipeData: data })).unwrap();
+      const updatedData = {
+        ...formData,
+        image_url,
+      };
+      await dispatch(updateRecipe({ id, recipeData: updatedData })).unwrap();
       alert('Recipe updated successfully!');
       navigate(`/recipe/${id}`);
     } catch (error) {
@@ -235,5 +235,8 @@ const EditRecipe = () => {
     </div>
   );
 };
+
+
+
 
 export default EditRecipe;

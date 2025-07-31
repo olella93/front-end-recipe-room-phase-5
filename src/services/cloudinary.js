@@ -1,32 +1,13 @@
 export const uploadImageToCloudinary = async (file) => {
-  // Cloudinary configuration from environment variables
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'dnzvxc6id';
-  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || 'recipe_unsigned';
-
-  // Check if Cloudinary is properly configured
-  if (cloudName === 'dnzvxc6id' || uploadPreset === 'recipe_unsigned') {
-    console.warn('Cloudinary not configured. Please set REACT_APP_CLOUDINARY_CLOUD_NAME and REACT_APP_CLOUDINARY_UPLOAD_PRESET in your .env file');
-    throw new Error('Cloudinary configuration missing');
-  }
-
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', uploadPreset);
+  formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-  try {
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) {
-      throw new Error(`Upload failed: ${res.statusText}`);
-    }
-
-    const data = await res.json();
-    return data.secure_url;
-  } catch (error) {
-    console.error('Cloudinary upload error:', error);
-    throw error;
-  }
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  
+  if (!res.ok) throw new Error("Image upload failed");
+  return res.json();
 };

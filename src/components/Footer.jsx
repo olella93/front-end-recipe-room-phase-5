@@ -1,13 +1,10 @@
 import React from 'react';
+import './Footer.css';
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="footer" id="footer">
-      <div className="footer-content" id="footer-content">
-        <p id="footer-text">&copy; 2025 Recipe Room. All rights reserved.</p>
-      </div>
+    <footer className="footer">
+      <p>© {new Date().getFullYear()} Recipe Room. All Rights Reserved.</p>
     </footer>
   );
-};
-
-export default Footer;
+}

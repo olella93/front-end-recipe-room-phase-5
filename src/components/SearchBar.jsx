@@ -1,14 +1,33 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 function SearchBar({ onSearch }) {
   const [searchText, setSearchText] = useState('');
+  const debounceRef = useRef();
+
+  // Debounced live search
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      if (onSearch) {
+        if (value.trim().length > 0) {
+          onSearch(value);
+        } else {
+          onSearch(''); // Show all recipes
+        }
+      }
+    }, 300);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (onSearch) {
-      onSearch(searchText);
-    } else {
-      console.log("Searching for:", searchText);
+      if (searchText.trim().length > 0) {
+        onSearch(searchText);
+      } else {
+        onSearch('');
+      }
     }
   };
 
@@ -19,7 +38,7 @@ function SearchBar({ onSearch }) {
         placeholder="Search recipes..."
         className="px-4 py-2 border rounded w-full"
         value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={handleInputChange}
       />
       <button 
         type="submit" 
