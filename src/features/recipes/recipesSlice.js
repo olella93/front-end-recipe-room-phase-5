@@ -58,7 +58,7 @@ const recipesSlice = createSlice({
         }
       })
       .addCase(updateRecipe.fulfilled, (state) => {
-        // No direct list update since we redirect to detail page after edit
+        
       });
   }
 });

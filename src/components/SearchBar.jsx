@@ -14,7 +14,7 @@ function SearchBar({ onSearch }) {
         if (value.trim().length > 0) {
           onSearch(value);
         } else {
-          onSearch(''); // Show all recipes
+          onSearch(''); 
         }
       }
     }, 300);

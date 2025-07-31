@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
+import Recipes from '../pages/Recipes';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import Profile from '../pages/Profile';
@@ -17,6 +18,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/recipes" element={<Recipes />} />
       <Route path="/recipes/:id" element={<RecipeDetail />} />
       <Route path="/create-recipe" element={<CreateRecipe />} />
       <Route path="/bookmarks" element={<Bookmarks />} />

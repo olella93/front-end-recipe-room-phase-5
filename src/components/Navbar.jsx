@@ -21,6 +21,7 @@ export default function Navbar() {
       </div>
       <div className="navbar-links">
         <Link to="/">Home</Link>
+        <Link to="/recipes">Recipes</Link>
         {user && <Link to="/create-recipe">Create</Link>}
         {user && <Link to="/bookmarks">Bookmarks</Link>}
         {user && <Link to="/profile">Profile</Link>}
