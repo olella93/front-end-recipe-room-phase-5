@@ -1,3 +1,139 @@
+/* Navbar base styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff7f0;
+  padding: 0.7rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(255,153,102,0.08);
+  position: relative;
+  z-index: 10;
+
+.navbar-logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff5e62;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.navbar-links a,
+.navbar-links button {
+  color: #a04a00;
+  background: none;
+  border: none;
+  font-size: 1.08rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.navbar-links a:hover,
+.navbar-links button:hover {
+  background: linear-gradient(90deg, #ff9966 0%, #ff5e62 100%);
+  color: #fff;
+}
+
+/* Hamburger styles */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 21;
+}
+
+.hamburger-bar {
+  width: 26px;
+  height: 3px;
+  background: #a04a00;
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* Hide desktop links and show hamburger on small screens */
+@media (max-width: 800px) {
+  .navbar-links-desktop {
+    display: none;
+  }
+  .navbar-hamburger {
+    display: flex;
+  }
+}
+
+/* Mobile overlay styles */
+.navbar-mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.navbar-links-mobile {
+/* Make sure nav links are visible on mobile too */
+.navbar-links-mobile a,
+.navbar-links-mobile button {
+  color: #a04a00;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+  background: #fff3e6;
+  box-shadow: -2px 0 16px rgba(255,153,102,0.10);
+  border-radius: 0 0 0 18px;
+  padding: 2.2rem 2rem 2rem 2rem;
+  margin-top: 0.5rem;
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: slideInRight 0.22s cubic-bezier(.4,1.6,.6,1) both;
+}
+
+.navbar-links-mobile a,
+.navbar-links-mobile button {
+  color: #a04a00 !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.navbar-links-mobile a:hover,
+.navbar-links-mobile button:hover {
+  background: linear-gradient(90deg, #ff9966 0%, #ff5e62 100%);
+  color: #fff !important;
+}
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
 .navbar {
   display: flex;
   justify-content: space-between;
