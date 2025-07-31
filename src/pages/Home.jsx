@@ -78,6 +78,18 @@ export default function Home() {
           value={filters.search}
           onChange={handleFilterChange}
           autoComplete="off"
+          style={{
+            flex: '1 1 180px',
+            padding: '0.7rem 1rem',
+            borderRadius: '12px',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            fontSize: '1rem',
+            background: '#fafbfc',
+            marginRight: '0.5rem',
+            outline: 'none',
+            transition: 'border 0.2s',
+          }}
         />
         <input
           type="text"
@@ -85,6 +97,18 @@ export default function Home() {
           placeholder="Country"
           value={filters.country}
           onChange={handleFilterChange}
+          style={{
+            flex: '1 1 120px',
+            padding: '0.7rem 1rem',
+            borderRadius: '12px',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            fontSize: '1rem',
+            background: '#fafbfc',
+            marginRight: '0.5rem',
+            outline: 'none',
+            transition: 'border 0.2s',
+          }}
         />
         <input
           type="number"
@@ -92,6 +116,18 @@ export default function Home() {
           placeholder="Min Rating"
           value={filters.min_rating}
           onChange={handleFilterChange}
+          style={{
+            flex: '1 1 100px',
+            padding: '0.7rem 1rem',
+            borderRadius: '12px',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            fontSize: '1rem',
+            background: '#fafbfc',
+            marginRight: '0.5rem',
+            outline: 'none',
+            transition: 'border 0.2s',
+          }}
         />
         <input
           type="number"
@@ -99,8 +135,38 @@ export default function Home() {
           placeholder="Serving Size"
           value={filters.serving_size}
           onChange={handleFilterChange}
+          style={{
+            flex: '1 1 100px',
+            padding: '0.7rem 1rem',
+            borderRadius: '12px',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            fontSize: '1rem',
+            background: '#fafbfc',
+            marginRight: '0.5rem',
+            outline: 'none',
+            transition: 'border 0.2s',
+          }}
         />
-        <button type="submit">Apply</button>
+        <button
+          type="submit"
+          style={{
+            padding: '0.7rem 1.5rem',
+            borderRadius: '12px',
+            border: 'none',
+            background: 'linear-gradient(90deg, #ff9966 0%, #ff5e62 100%)',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'linear-gradient(90deg, #ff9966 0%, #ff5e62 100%)'}
+        >
+          Apply
+        </button>
       </form>
 
       {loading && <p>Loading recipes...</p>}
