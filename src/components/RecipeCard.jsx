@@ -7,13 +7,20 @@ import './RecipeCard.css';
 export default function RecipeCard({ recipe }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const bookmarks = useSelector((state) => state.bookmarks.list);
 
   if (!recipe) {
     return null;
   }
 
+
+  // Find if this recipe is already bookmarked
+  const isBookmarked = bookmarks && bookmarks.some(
+    (b) => b.recipe_id === recipe.id || b.recipe_id === recipe._id || b.id === recipe.id || b.id === recipe._id
+  );
+
   const handleBookmark = () => {
-    if (recipe.id) {
+    if (recipe.id && !isBookmarked) {
       dispatch(addBookmark(recipe.id));
     }
   };
@@ -34,9 +41,15 @@ export default function RecipeCard({ recipe }) {
           </Link>
         )}
         {user && recipe.id && (
-          <button onClick={handleBookmark} className="bookmark-btn">
-            ★ Bookmark
-          </button>
+          isBookmarked ? (
+            <button className="bookmark-btn bookmarked" disabled>
+              ★ Bookmarked
+            </button>
+          ) : (
+            <button onClick={handleBookmark} className="bookmark-btn">
+              ★ Bookmark
+            </button>
+          )
         )}
       </div>
     </div>
