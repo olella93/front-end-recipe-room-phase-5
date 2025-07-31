@@ -1,3 +1,9 @@
+.recipe-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: flex-start;
+}
 .recipe-card {
   background: white;
   border-radius: 10px;
@@ -24,16 +30,34 @@
   color: var(--primary-color);
 }
 
-.view-btn {
+.view-btn,
+.bookmark-btn {
   display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.32rem 0.85rem;
   background-color: var(--primary-color);
   color: var(--text-light);
   border-radius: 5px;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 0.98rem;
+  border: none;
+  box-shadow: 0 1px 4px rgba(255,153,102,0.10);
+  transition: background 0.18s, color 0.18s;
+  min-width: 98px;
+  text-align: center;
 }
 
+.view-btn:hover,
+.bookmark-btn:hover:not(:disabled):not(.bookmarked) {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.bookmark-btn.bookmarked {
+  background-color: #bdbdbd;
+  color: #888;
+  cursor: not-allowed;
+}
 .view-btn:hover {
   background-color: var(--accent-color);
 }

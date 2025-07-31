@@ -35,22 +35,24 @@ export default function RecipeCard({ recipe }) {
       <div className="recipe-info">
         <h3>{title}</h3>
         <p>{description}</p>
-        {recipe.id && (
-          <Link to={`/recipes/${recipe.id}`} className="view-btn">
-            View Recipe
-          </Link>
-        )}
-        {user && recipe.id && (
-          isBookmarked ? (
-            <button className="bookmark-btn bookmarked" disabled>
-              ★ Bookmarked
-            </button>
-          ) : (
-            <button onClick={handleBookmark} className="bookmark-btn">
-              ★ Bookmark
-            </button>
-          )
-        )}
+        <div className="recipe-actions">
+          {recipe.id && (
+            <Link to={`/recipes/${recipe.id}`} className="view-btn">
+              View Recipe
+            </Link>
+          )}
+          {user && recipe.id && (
+            isBookmarked ? (
+              <button className="bookmark-btn bookmarked" disabled>
+                ★ Bookmarked
+              </button>
+            ) : (
+              <button onClick={handleBookmark} className="bookmark-btn">
+                ★ Bookmark
+              </button>
+            )
+          )}
+        </div>
       </div>
     </div>
   );
