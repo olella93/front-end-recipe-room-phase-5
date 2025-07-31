@@ -5,6 +5,11 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "framer": "^2.4.1",
+
+    "framer-motion": "^12.23.11",
+
+    "motion": "^12.23.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",

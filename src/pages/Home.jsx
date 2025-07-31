@@ -121,7 +121,7 @@ export default function Home() {
         <div ref={loaderRef} style={{ textAlign: 'center', padding: '1rem', color: '#555' }}>
           Loading more recipes...
         </div>
-      )}
+      </div>
     </div>
   );
 }
