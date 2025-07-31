@@ -13,7 +13,7 @@ const Recipes = () => {
   const bookmarks = useSelector((state) => state.bookmarks.items);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const RECIPES_PER_PAGE = 4;
+  const RECIPES_PER_PAGE = 3;
   const debounceRef = useRef();
 
   useEffect(() => {
@@ -76,8 +76,6 @@ const Recipes = () => {
     return () => clearTimeout(debounceRef.current);
   }, [searchText, dispatch]);
 
-  // Debug logs
-  // console.log('All Recipes:', recipes);
 
   if (error) {
     return (
