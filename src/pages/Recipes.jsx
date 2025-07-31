@@ -11,6 +11,8 @@ const Recipes = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const bookmarks = useSelector((state) => state.bookmarks.items);
   const [isSearching, setIsSearching] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const RECIPES_PER_PAGE = 4;
 
   useEffect(() => {
    
@@ -52,6 +54,18 @@ const Recipes = () => {
 
   const displayRecipes = isSearching ? searchResults : recipes;
   const isLoading = isSearching ? searchLoading : loading;
+  const totalPages = Math.ceil(displayRecipes.length / RECIPES_PER_PAGE);
+  const paginatedRecipes = displayRecipes.slice((currentPage - 1) * RECIPES_PER_PAGE, currentPage * RECIPES_PER_PAGE);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Reset to first page when search or recipes change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [isSearching, searchResults, recipes]);
 
   // Debug logs
   console.log('Search Results:', searchResults);
@@ -119,30 +133,87 @@ const Recipes = () => {
         </div>
       )}
 
-      {/* Recipe Grid */}
+      {/* Recipe Grid with Pagination */}
       {!isLoading && (
-        <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="recipe-grid">
-          {displayRecipes.length > 0 ? (
-            displayRecipes.map((recipe) => (
-              <RecipeCard 
-                key={recipe._id || recipe.id} 
-                recipe={recipe} 
-                onShare={handleShare}
-              />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">
-                {isSearching ? 'No recipes found for your search.' : 'No recipes available yet.'}
-              </p>
-              {!isSearching && (
-                <p className="text-gray-400 mt-2">
-                  Be the first to share a recipe!
+        <>
+          <div className="recipe-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="recipe-grid">
+            {paginatedRecipes.length > 0 ? (
+              paginatedRecipes.map((recipe) => (
+                <RecipeCard 
+                  key={recipe._id || recipe.id} 
+                  recipe={recipe} 
+                  onShare={handleShare}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 text-lg">
+                  {isSearching ? 'No recipes found for your search.' : 'No recipes available yet.'}
                 </p>
-              )}
+                {!isSearching && (
+                  <p className="text-gray-400 mt-2">
+                    Be the first to share a recipe!
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0', gap: '0.5rem' }}>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  border: '1px solid #ffb88c',
+                  background: currentPage === 1 ? '#ffe5d0' : '#ffb88c',
+                  color: currentPage === 1 ? '#aaa' : '#fff',
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                  fontWeight: 'bold',
+                  transition: 'background 0.2s'
+                }}
+              >
+                Prev
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => handlePageChange(i + 1)}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    border: '1px solid #ccc',
+                    background: currentPage === i + 1 ? 'linear-gradient(90deg, #ff9966 0%, #ff5e62 100%)' : '#fff',
+                    color: currentPage === i + 1 ? '#fff' : '#333',
+                    fontWeight: currentPage === i + 1 ? 'bold' : 'normal',
+                    cursor: 'pointer',
+                    margin: '0 2px'
+                  }}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  border: '1px solid #ffb88c',
+                  background: currentPage === totalPages ? '#ffe5d0' : '#ffb88c',
+                  color: currentPage === totalPages ? '#aaa' : '#fff',
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                  fontWeight: 'bold',
+                  transition: 'background 0.2s'
+                }}
+              >
+                Next
+              </button>
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
