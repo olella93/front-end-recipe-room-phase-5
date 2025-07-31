@@ -136,6 +136,6 @@ This project helped us learn and practice:
 
 
 Thank you for checking out Recipe Room! We hope you enjoy using it as much as we enjoyed building it. If you have any questions or feedback, feel free to reach out!
-# front-end-recipe-room-phase-5
+
 
 
