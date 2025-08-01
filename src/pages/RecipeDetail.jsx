@@ -9,6 +9,7 @@ import { submitRating, clearRatingState } from '../features/ratings/ratingSlice'
 import { fetchComments, createComment, updateComment, deleteComment } from '../features/comments/commentsSlice';
 import RatingStars from '../components/RatingStars';
 import CommentBox from '../components/CommentBox';
+import ShareButtons from '../components/ShareButtons';
 
 export default function RecipeDetail() {
   const { id } = useParams();
@@ -127,14 +128,20 @@ useEffect(() => {
       {selectedRecipe.image_url && (
         <img src={selectedRecipe.image_url} alt={selectedRecipe.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }} />
       )}
+
       {user && selectedRecipe.user_id === user.id && (
-        <div style={{ display: 'flex', gap: '1rem', margin: '1rem 0' }}>
+        <div style={{ display: 'flex', gap: '1rem', margin: '1rem 0', alignItems: 'center' }}>
           <button style={{ padding: '0.6rem 1.2rem', borderRadius: '8px', background: '#ff914d', color: '#fff', border: 'none', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => window.location.href = `/recipes/${selectedRecipe.id}/edit`}>
             Edit Recipe
           </button>
           <button style={{ padding: '0.6rem 1.2rem', borderRadius: '8px', background: '#d32f2f', color: '#fff', border: 'none', fontWeight: 'bold', cursor: 'pointer' }} onClick={handleDeleteRecipe}>
             Delete Recipe
           </button>
+          <ShareButtons 
+            url={window.location.href}
+            title={selectedRecipe.title}
+            description={selectedRecipe.description}
+          />
         </div>
       )}
 
