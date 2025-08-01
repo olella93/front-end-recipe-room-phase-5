@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchRecipesAPI, fetchRecipeByIdAPI, createRecipeAPI, searchRecipesAPI, fetchCommentsAPI, submitRatingAPI, deleteRecipeAPI } from './recipesAPI';
+import { fetchRecipesAPI, fetchRecipeByIdAPI, createRecipeAPI, searchRecipesAPI, fetchCommentsAPI, submitRatingAPI, deleteRecipeAPI, updateRecipeAPI } from './recipesAPI';
 export const deleteRecipe = createAsyncThunk('recipes/delete', async (id) => deleteRecipeAPI(id));
 
 export const fetchRecipes = createAsyncThunk('recipes/fetchAll', async (filters) => fetchRecipesAPI(filters));
